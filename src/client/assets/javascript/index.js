@@ -118,23 +118,30 @@ function runRace(raceID) {
 }
 
 async function runCountdown() {
-	try {
+	
 		// wait for the DOM to load
 		await delay(1000);
 		let timer = 3;
 
 		return new Promise(resolve => {
 			// TODO - use Javascript's built in setInterval method to count down once per second
-
 			// run this DOM manipulation to decrement the countdown for the user
-			document.getElementById('big-numbers').innerHTML = --timer;
-
 			// TODO - if the countdown is done, clear the interval, resolve the promise, and return
+			resolve();
+		})
+		.then(() => {
+			let countdown = setInterval(()=> {
+				document.getElementById('big-numbers').innerHTML = --timer;
+				if(timer === 0 ){
+					clearInterval(countdown);
+				}
+			}, 1000);
+			return;
 
 		})
-	} catch(error) {
+		.catch((error) => {
 		console.log(error);
-	}
+		});
 }
 
 function handleSelectPodRacer(target) {
@@ -364,7 +371,7 @@ function createRace(player_id, track_id) {
 
 function getRace(id) {
 	// GET request to `${SERVER}/api/races/${id}`
-	id = parseInt(id);
+	id = parseInt(id)-1;
 	return fetch(`${SERVER}/api/races\${id}`, {
 		method: 'GET',
 		...defaultFetchOpts(),		
@@ -374,12 +381,12 @@ function getRace(id) {
 }
 
 function startRace(id) {
-	return fetch(`${SERVER}/api/races/${id}/start`, {
+	id = parseInt(id)-1;
+	fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
 		...defaultFetchOpts(),
 	})
-	.then(res => res.json())
-	.catch(err => console.log("Problem with getRace request::", err));
+	.catch(err => console.log("Problem with startRace request::", err));
 }
 
 function accelerate(id) {
@@ -391,6 +398,5 @@ function accelerate(id) {
 		method: 'POST',
 		...defaultFetchOpts(),		
 	})
-	.then(res => res.json())
 	.catch(err => console.log("Problem with accelerate request::", err));
 }
