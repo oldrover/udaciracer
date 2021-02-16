@@ -35,29 +35,29 @@ async function onPageLoad() {
 
 function setupClickHandlers() {
 	document.addEventListener('click', function(event) {
-		const { target } = event
+		const { target } = event;
 
 		// Race track form field
 		if (target.matches('.card.track')) {
-			handleSelectTrack(target)
+			handleSelectTrack(target);
 		}
 
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
-			handleSelectPodRacer(target)
+			handleSelectPodRacer(target);
 		}
 
 		// Submit create race form
 		if (target.matches('#submit-create-race')) {
-			event.preventDefault()
+			event.preventDefault();
 	
 			// start race
-			handleCreateRace()
+			handleCreateRace();
 		}
 
 		// Handle acceleration click
 		if (target.matches('#gas-peddle')) {
-			handleAccelerate(target)
+			handleAccelerate(target);
 		}
 
 	}, false);
@@ -146,6 +146,7 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected');
 
 	// TODO - save the selected racer to the store
+	store = Object.assign(store, {player_id: target.id});
 }
 
 function handleSelectTrack(target) {
@@ -161,6 +162,7 @@ function handleSelectTrack(target) {
 	target.classList.add('selected');
 
 	// TODO - save the selected track id to the store
+	store = Object.assign(store, {track_id: target.id});
 	
 }
 
