@@ -75,21 +75,25 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-	// render starting UI
-	renderAt('#race', renderRaceStartView())
-
-	// TODO - Get player_id and track_id from the store
-	
+	// TODO - Get player_id and track_id from the store		
 	// const race = TODO - invoke the API call to create the race, then save the result
-
+	const race = await createRace(store.player_id, store.track_id);
+		
 	// TODO - update the store with the race id
+	store = Object.assign(store, { race_id: race.ID });
+
+	// render starting UI
+	renderAt('#race', renderRaceStartView(race.Track));
 
 	// The race has been created, now start the countdown
 	// TODO - call the async function runCountdown
+	await runCountdown();
 
 	// TODO - call the async function startRace
+	await startRace(store.race_id);
 
 	// TODO - call the async function runRace
+	runRace(store.race_id);
 }
 
 function runRace(raceID) {
@@ -116,14 +120,14 @@ function runRace(raceID) {
 async function runCountdown() {
 	try {
 		// wait for the DOM to load
-		await delay(1000)
-		let timer = 3
+		await delay(1000);
+		let timer = 3;
 
 		return new Promise(resolve => {
 			// TODO - use Javascript's built in setInterval method to count down once per second
 
 			// run this DOM manipulation to decrement the countdown for the user
-			document.getElementById('big-numbers').innerHTML = --timer
+			document.getElementById('big-numbers').innerHTML = --timer;
 
 			// TODO - if the countdown is done, clear the interval, resolve the promise, and return
 
@@ -169,6 +173,7 @@ function handleSelectTrack(target) {
 function handleAccelerate() {
 	console.log("accelerate button clicked");
 	// TODO - Invoke the API call to accelerate
+	accelerate(store.race_id);
 }
 
 // HTML VIEWS ------------------------------------------------
