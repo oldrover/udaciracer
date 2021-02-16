@@ -386,7 +386,8 @@ function accelerate(id) {
 	// POST request to `${SERVER}/api/races/${id}/accelerate`
 	// options parameter provided as defaultFetchOpts
 	// no body or datatype needed for this request
-	fetch(`${SERVER}/api/races\${id}`, {
+	id = parseInt(id)-1;	
+	fetch(`${SERVER}/api/races/${id}/accelerate`, {
 		method: 'POST',
 		...defaultFetchOpts(),		
 	})
