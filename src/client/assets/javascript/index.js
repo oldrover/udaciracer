@@ -160,7 +160,7 @@ function handleSelectPodRacer(target) {
 	// remove class selected from all racer options
 	const selected = document.querySelector('#racers .selected');
 	if(selected) {
-		selected.classList.remove('selected')
+		selected.classList.remove('selected');
 	}
 
 	// add class selected to current target
